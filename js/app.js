@@ -4,13 +4,17 @@
     angular.module('NarrowItDownApp', [])
     .controller('NarrowItDownController',NarrowItDownController)
     .service('MenuSearchService', MenuSearchService)
-    .directive('foundItem', FoundItem)
+    .directive('foundItems', FoundItems)
     ;
 
 //directive
-function FoundItem () {
+function FoundItems () {
   var ddo = {
-    templateUrl: 'foundItems.html'
+    templateUrl: 'foundItems.html',
+    scope: {
+      found: '<',
+      myMethod: '&method'
+    }
   };
   return ddo;
 };
@@ -55,7 +59,7 @@ function MenuSearchService($q, $http) {
           };
       };
       deferred.resolve(foundItems);
-      
+
     })
     //catch
     .catch(function (error){
