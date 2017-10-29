@@ -13,6 +13,7 @@ function FoundItems () {
     templateUrl: 'foundItems.html',
     scope: {
       found: '<',
+      error: '<',
       onRemove: '&'
     }
   //  controllerAs: 'menu'
@@ -26,6 +27,8 @@ function NarrowItDownController (MenuSearchService) {
   var menu = this;
 
   menu.found = '';
+  menu.error = '';
+
 
 
 
@@ -33,6 +36,11 @@ function NarrowItDownController (MenuSearchService) {
     var promise = MenuSearchService.getMatchedMenuItems(searchTerm);
     promise.then(function(response){
       menu.found = response;
+      menu.error = '';
+    })
+    .catch(function (errorResponse) {
+         menu.found = '';
+         menu.error = errorResponse.message;
     });
   };
 
@@ -64,8 +72,12 @@ function MenuSearchService($q, $http) {
             foundItems.push(items[i]);
           };
       };
-      deferred.resolve(foundItems);
-
+      if(foundItems.length > 0 && searchTerm) {
+        deferred.resolve(foundItems);
+      } else {
+        foundItems.message = "Nothing found";
+        deferred.reject(foundItems);
+      };
     })
     //catch
     .catch(function (error){
