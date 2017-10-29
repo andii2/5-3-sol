@@ -39,7 +39,6 @@ function NarrowItDownController (MenuSearchService) {
   //removeFoundItem function
   menu.removeFoundItem = function (foundItemIndex) {
     menu.found.splice(foundItemIndex,1);
-    console.log("now I'm here");
   };
 
 };
