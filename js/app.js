@@ -13,8 +13,9 @@ function FoundItems () {
     templateUrl: 'foundItems.html',
     scope: {
       found: '<',
-      myMethod: '&method'
+      onRemove: '&'
     }
+  //  controllerAs: 'menu'
   };
   return ddo;
 };
@@ -35,6 +36,11 @@ function NarrowItDownController (MenuSearchService) {
     });
   };
 
+  //removeFoundItem function
+  menu.removeFoundItem = function (foundItemIndex) {
+    menu.found.splice(foundItemIndex,1);
+    console.log("now I'm here");
+  };
 
 };
 
@@ -42,7 +48,7 @@ function NarrowItDownController (MenuSearchService) {
 MenuSearchService.$inject = ['$q','$http'];
 function MenuSearchService($q, $http) {
   var service = this;
-  var foundItems = new Array;
+
 
   service.getMatchedMenuItems = function (searchTerm) {
     //let's make it a promise
@@ -51,6 +57,7 @@ function MenuSearchService($q, $http) {
     var promise = service.getMenuItems();
     //then
     promise.then (function (response) {
+      var foundItems = new Array;
       var items = response.data.menu_items;
       for (var i=0; i < items.length; i++) {
           var name = items[i].name;

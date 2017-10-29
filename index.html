@@ -22,11 +22,7 @@
       <!-- found-items should be implemented as a component -->
     <!--  <found-items found-items="...." on-remove="...."></found-items> -->
     </div>
-    <div>
-      <ol>
-          <found-items found="menu.found"></found-items>
-      </ol>
-    </div>
+      <found-items on-remove="menu.removeFoundItem(index)" found="menu.found"></found-items>
   </div>
 </body>
 </html>
